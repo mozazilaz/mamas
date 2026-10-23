@@ -87,6 +87,32 @@ function lightGame(box){let seq=[],chosen=[],buttons=['🌙','✨','🕯️','�
 function careGame(box){const steps=[{icon:'🛋️',text:'Bantu Sinok duduk dan beristirahat'},{icon:'🥤',text:'Ambilkan minum'},{icon:'🧻',text:'Siapkan tisu dan bantu bersihkan diri'},{icon:'🤍',text:'Temani Sinok sampai lebih tenang'}];const decoys=[{icon:'🏃',text:'Ajak langsung jalan-jalan'},{icon:'📱',text:'Asyik main HP dan biarkan sendiri'}];let next=0,mistakes=0,left=25,token=challengeToken;let choices=[...steps.map(x=>({...x,correct:true})),...decoys.map(x=>({...x,correct:false}))].sort(()=>Math.random()-.5);box.insertAdjacentHTML('beforeend','<p class="hint">Tantangan sedang: selesaikan 4 langkah merawat Sinok dalam 25 detik. Pilih urutan yang tepat. Kamu punya 2 kesempatan salah; kesalahan ketiga membuat tantangan gagal.</p><div class="meter"><div id="careTimerBar"></div></div><div class="panel" style="padding:14px"><b id="careProgress">Langkah 0 / 4</b><p id="carePrompt" class="hint">Waktu: <b id="careTime">25</b> detik · Kesalahan: <b id="careMistakes">0 / 3</b></p><p class="hint">Apa yang sebaiknya dilakukan lebih dulu?</p></div><div class="care-grid" id="careChoices"></div>');const grid=$('careChoices');function render(){grid.innerHTML='';choices.filter(item=>!item.used).forEach(item=>{let b=document.createElement('button');b.className='care-item';b.innerHTML='<span style="font-size:1.4rem">'+item.icon+'</span><br>'+item.text;b.onclick=()=>{if(token!==challengeToken)return;if(item.correct&&steps[next].text===item.text){item.used=true;b.classList.add('used');next++;$('careProgress').textContent='Langkah '+next+' / 4';if(next===4){stopTimer();success('Mamas menyelesaikan misi perawatan dengan tepat. Perhatian kecil seperti ini berarti besar bagi Sinok. 🤍');return}$('carePrompt').innerHTML='Waktu: <b id="careTime">'+left+'</b> detik · Kesalahan: <b id="careMistakes">'+mistakes+' / 3</b><br>'+['Apa langkah berikutnya?','Apa yang membantu Sinok merasa lebih nyaman?','Setelah itu, bagaimana Mamas bisa menenangkan Sinok?'][next-1];render()}else{mistakes++;$('careMistakes').textContent=mistakes+' / 3';b.animate([{transform:'translateX(-5px)'},{transform:'translateX(5px)'},{transform:'translateX(0)'}],{duration:220});toast('Belum tepat. Pikirkan kebutuhan Sinok saat itu, Mamas. 💗');if(mistakes>=3)fail('Tiga kali salah memilih langkah perawatan.');}};grid.appendChild(b)})}render();stopTimer();timer=setInterval(()=>{left--;$('careTime').textContent=left;$('careTimerBar').style.width=((25-left)/25*100)+'%';if(left<=0)fail('Waktu habis sebelum semua langkah perawatan selesai.');},1000)}
 function treasureGame(box){let found=[],misses=0,token=challengeToken;const keys=new Set();while(keys.size<3)keys.add(Math.floor(Math.random()*12));box.insertAdjacentHTML('beforeend','<p class="hint">Ada 12 tempat rahasia dan 3 kunci. Temukan semuanya dengan maksimal 6 pilihan yang kosong. Jangan asal menebak!</p><div class="playfield" id="field"></div><p class="hint">Kunci ditemukan: <b id="count">0 / 3</b> · Tempat kosong: <b id="miss">0 / 6</b></p>');let field=$('field');for(let i=0;i<12;i++){let b=document.createElement('button');b.className='target';b.textContent='✦';b.style.left=(3+(i%4)*24+Math.random()*5)+'%';b.style.top=(4+Math.floor(i/4)*29+Math.random()*4)+'%';b.onclick=()=>{if(b.disabled||token!==challengeToken)return;b.disabled=true;if(keys.has(i)){found.push(i);b.textContent='🗝️';$('count').textContent=found.length+' / 3';toast('Kunci ditemukan! 🔑');if(found.length===3)success('Peti cinta berhasil dibuka! Hadiah terakhir menunggu. 🎁')}else{misses++;b.textContent='·';$('miss').textContent=misses+' / 6';if(misses>=6)fail('Enam tempat kosong ditemukan, tetapi petinya belum terbuka. Coba lagi dengan strategi lebih baik!');else toast('Kosong! Sisa kesempatan mencari: '+(6-misses));}};field.appendChild(b)}}
 $('startBtn').onclick=()=>{screen('mapScreen');renderMap()};$('howBtn').onclick=instructions;$('continueBtn').onclick=()=>startLevel(Math.min(state.unlocked,5));$('backBtn').onclick=()=>{screen('mapScreen');renderMap()};$('resetBtn').onclick=()=>modal('↻','Mulai dari awal?','<p>Semua progres dan poin permainan akan diulang. Foto dan file musikmu tetap aman.</p>',[{label:'Ya, ulangi',cls:'danger',fn:()=>{stopTimer();state={lives:3,score:0,completed:[],unlocked:0,current:0,finished:false};save();status();renderMap();screen('welcome');toast('Petualangan dimulai kembali. 💗')}},{label:'Batal',cls:'secondary'}]);$('replayBtn').onclick=()=>{$('resetBtn').click()};$('printCertBtn').onclick=()=>{const w=window.open('sertifikat.png','_blank');if(w){w.onload=()=>w.print();}else toast('Izinkan pop-up untuk mencetak sertifikat.');};$('finalMapBtn').onclick=()=>{screen('mapScreen');renderMap()};$('musicBtn').onclick=async()=>{let a=$('bgMusic');if(a.paused){try{await a.play();$('musicBtn').textContent='♫ Musik: nyala'}catch(e){toast('Pastikan musik.mp3 ada di samping index.html.')}}else{a.pause();$('musicBtn').textContent='♫ Musik: mati'}};
+
 load();status();renderMap();if(state.finished&&state.completed.length===6){};
+
+// TEMPEL KODE PEMERIKSAAN VIDEO DI SINI
+const coupleVideo = document.getElementById('coupleVideo');
+const videoHelp = document.getElementById('videoHelp');
+
+if (coupleVideo && videoHelp) {
+  coupleVideo.addEventListener('loadedmetadata', function () {
+    videoHelp.textContent =
+      'Video berhasil dimuat. Selamat menonton, Mamas! ❤️';
+  });
+
+  coupleVideo.addEventListener('error', function () {
+    const error = coupleVideo.error;
+
+    if (error && error.code === 3) {
+      videoHelp.textContent =
+        'Codec video tidak didukung browser. Video perlu dikonversi ke MP4 H.264.';
+    } else {
+      videoHelp.textContent =
+        'Video gagal dimuat. Periksa file kebersamaan.mp4 di GitHub.';
+    }
+  });
+}
+
 })();
 </script></body></html>
+
