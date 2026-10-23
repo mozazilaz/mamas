@@ -18,28 +18,41 @@
 <section class="screen" id="ending">
 <div class="letter ending-hero"><span class="eyebrow" style="color:#9b4d7b;border-color:#e8a3c9">✦ Petualangan selesai ✦</span><h2 style="margin-top:18px">Kita sudah sampai sejauh ini, Mamas. 💗</h2><p>Berawal dari obrolan sederhana, sekarang kita punya banyak cerita untuk disimpan.</p><p>Terima kasih sudah menerima Sinok, mendengarkan cerita Sinok, dan tetap berusaha menjadi lebih baik bersama. Semoga Allah menjaga langkah kita, melapangkan rezeki, mengizinkan kita ke Makkah dan Madinah, dan menuntun kita menuju masa depan yang kita doakan. ❤️</p><p style="font-weight:900;color:#5b365e">Dengan sayang, Sinok ♡</p></div>
 
+
 <div class="memory-video panel">
   <span class="eyebrow">🎞️ Kenangan kita</span>
   <h2>Putar kenangan kita</h2>
   <p class="hint">
-    Video kenangan Sinok dan Mamas.
+    Sinok menyimpan satu kenangan spesial untuk Mamas. 
+    Yuk, kita putar kembali. ❤️
   </p>
 
-  <video
-    id="coupleVideo"
-    controls
-    playsinline
-    preload="metadata"
-    style="width: 100%; height: auto; display: block; border-radius: 14px; background: #111128;"
+  <div style="position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:16px;background:#111128;">
+    <iframe
+      src="https://www.youtube-nocookie.com/embed/qbuj7SwSQ_A"
+      title="Video Kenangan Sinok dan Mamas"
+      style="position:absolute;inset:0;width:100%;height:100%;border:0;"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin"
+      allowfullscreen
+    ></iframe>
+  </div>
+
+  <p class="fine">
+    Kenangan kita, hari ini dan nanti. 💗
+  </p>
+
+  <a
+    class="primary"
+    href="https://youtu.be/qbuj7SwSQ_A"
+    target="_blank"
+    rel="noopener noreferrer"
+    style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none;margin-top:12px;"
   >
-    <source src="./kebersamaan.mp4" type="video/mp4">
-    Browser kamu tidak mendukung pemutaran video.
-  </video>
-
-  <p class="fine" id="videoHelp">
-    Jika video belum bisa diputar, periksa file kebersamaan.mp4 di GitHub.
-  </p>
+    ▶ Tonton di YouTube
+  </a>
 </div>
+
 
 <div class="coupon"><div style="font-size:.75rem;letter-spacing:.2em;font-weight:950;color:#a54d7c">KUPON CINTA EKSKLUSIF</div><h2>♡ Kupon Sayang dari Sinok ♡</h2><p>Hadiah kecil yang dibuat khusus untuk Mamas.</p><img src="kupon.jpg" alt="Kupon cinta dari Sinok" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><div style="display:none;padding:25px;color:#855f84">🎟️<br><b>Tempat gambar kupon cinta</b><br>Simpan gambar kupon dengan nama <b>kupon.jpg</b> di samping file index.html.</div><p>Nomor kupon: <b>22-11-SINOK-MAMAS</b><br>Berlaku selama kita saling menyayangi dan menjaga. ✨</p></div>
 <div class="certificate-card"><span class="eyebrow">🏆 Penghargaan spesial</span><h2>Sertifikat Best Boyfriend</h2><p class="hint">Karena Mamas punya tempat istimewa di hati Sinok.</p><img id="certificateImage" src="sertifikat.png" alt="Sertifikat Best Boyfriend untuk Mamas" onerror="this.onerror=null;this.src='a_flat_decorative_romantic_certificate_design_pa.png'"><p class="fine">Sertifikat penghargaan cinta dari Sinok untuk Mamas · 22 November 2026</p><div class="btnrow"><a class="primary download-cert" href="sertifikat.png" download="Sertifikat-Best-Boyfriend-Mamas.png">⬇ Unduh Sertifikat</a><button class="secondary" id="printCertBtn">Cetak Sertifikat</button></div></div>
@@ -88,31 +101,13 @@ function careGame(box){const steps=[{icon:'🛋️',text:'Bantu Sinok duduk dan 
 function treasureGame(box){let found=[],misses=0,token=challengeToken;const keys=new Set();while(keys.size<3)keys.add(Math.floor(Math.random()*12));box.insertAdjacentHTML('beforeend','<p class="hint">Ada 12 tempat rahasia dan 3 kunci. Temukan semuanya dengan maksimal 6 pilihan yang kosong. Jangan asal menebak!</p><div class="playfield" id="field"></div><p class="hint">Kunci ditemukan: <b id="count">0 / 3</b> · Tempat kosong: <b id="miss">0 / 6</b></p>');let field=$('field');for(let i=0;i<12;i++){let b=document.createElement('button');b.className='target';b.textContent='✦';b.style.left=(3+(i%4)*24+Math.random()*5)+'%';b.style.top=(4+Math.floor(i/4)*29+Math.random()*4)+'%';b.onclick=()=>{if(b.disabled||token!==challengeToken)return;b.disabled=true;if(keys.has(i)){found.push(i);b.textContent='🗝️';$('count').textContent=found.length+' / 3';toast('Kunci ditemukan! 🔑');if(found.length===3)success('Peti cinta berhasil dibuka! Hadiah terakhir menunggu. 🎁')}else{misses++;b.textContent='·';$('miss').textContent=misses+' / 6';if(misses>=6)fail('Enam tempat kosong ditemukan, tetapi petinya belum terbuka. Coba lagi dengan strategi lebih baik!');else toast('Kosong! Sisa kesempatan mencari: '+(6-misses));}};field.appendChild(b)}}
 $('startBtn').onclick=()=>{screen('mapScreen');renderMap()};$('howBtn').onclick=instructions;$('continueBtn').onclick=()=>startLevel(Math.min(state.unlocked,5));$('backBtn').onclick=()=>{screen('mapScreen');renderMap()};$('resetBtn').onclick=()=>modal('↻','Mulai dari awal?','<p>Semua progres dan poin permainan akan diulang. Foto dan file musikmu tetap aman.</p>',[{label:'Ya, ulangi',cls:'danger',fn:()=>{stopTimer();state={lives:3,score:0,completed:[],unlocked:0,current:0,finished:false};save();status();renderMap();screen('welcome');toast('Petualangan dimulai kembali. 💗')}},{label:'Batal',cls:'secondary'}]);$('replayBtn').onclick=()=>{$('resetBtn').click()};$('printCertBtn').onclick=()=>{const w=window.open('sertifikat.png','_blank');if(w){w.onload=()=>w.print();}else toast('Izinkan pop-up untuk mencetak sertifikat.');};$('finalMapBtn').onclick=()=>{screen('mapScreen');renderMap()};$('musicBtn').onclick=async()=>{let a=$('bgMusic');if(a.paused){try{await a.play();$('musicBtn').textContent='♫ Musik: nyala'}catch(e){toast('Pastikan musik.mp3 ada di samping index.html.')}}else{a.pause();$('musicBtn').textContent='♫ Musik: mati'}};
 
+
 load();status();renderMap();if(state.finished&&state.completed.length===6){};
 
-// TEMPEL KODE PEMERIKSAAN VIDEO DI SINI
-const coupleVideo = document.getElementById('coupleVideo');
-const videoHelp = document.getElementById('videoHelp');
-
-if (coupleVideo && videoHelp) {
-  coupleVideo.addEventListener('loadedmetadata', function () {
-    videoHelp.textContent =
-      'Video berhasil dimuat. Selamat menonton, Mamas! ❤️';
-  });
-
-  coupleVideo.addEventListener('error', function () {
-    const error = coupleVideo.error;
-
-    if (error && error.code === 3) {
-      videoHelp.textContent =
-        'Codec video tidak didukung browser. Video perlu dikonversi ke MP4 H.264.';
-    } else {
-      videoHelp.textContent =
-        'Video gagal dimuat. Periksa file kebersamaan.mp4 di GitHub.';
-    }
-  });
-}
-
 })();
-</script></body></html>
+
+</script>
+</body>
+</html>
+
 
